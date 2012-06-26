@@ -52,10 +52,10 @@
       <HintPath>..\..\Amundsen.Utilities\bin\Debug\Amundsen.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="Finsel.AzureCommands">
-      <HintPath>..\..\azurecommands\Finsel.AzureCommands\bin\Debug\Finsel.AzureCommands.dll</HintPath>
+      <HintPath>..\..\CarpDeusProjects\azurecommands\Finsel.AzureCommands\bin\Debug\Finsel.AzureCommands.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json.Net20">
-      <HintPath>..\..\..\..\Json35r8\Bin\DotNet20\Newtonsoft.Json.Net20.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Json45r7\Bin\Net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

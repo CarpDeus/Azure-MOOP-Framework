@@ -146,27 +146,27 @@ namespace MOOP_WebRole
                 }
               }
               IndexSearcher searcher2 = new IndexSearcher(azDir, true);
-              TopScoreDocCollector collector = TopScoreDocCollector.create(1000, true);
+              TopScoreDocCollector collector = TopScoreDocCollector.Create(1000, true);
               // If we have either no replaceable values or have replaceable values and at least one was provided
               if (!hasReplaceableSearchValues || (hasReplaceableSearchValues && hasReplacedAtLeastOneValue))
                 if (requirementsMet)
                   searcher2.Search(q, collector);
               int indexID = 1;
-              ScoreDoc[] hits = collector.TopDocs().scoreDocs;
+              ScoreDoc[] hits = collector.TopDocs().ScoreDocs;
               StringBuilder xmlOutput = new StringBuilder();
               xmlOutput.AppendFormat("<?xml version=\"1.0\"?><root>");
               for (int i = 0; i < hits.Length; ++i)
               {
                 xmlOutput.AppendFormat("<hit>");
-                int docId = hits[i].doc;
+                int docId = hits[i].Doc;
                 Document d = searcher2.Doc(docId);
-                xmlOutput.AppendFormat("<score>{0}</score><docID>{1}</docID>", hits[i].score, indexID ++);
+                xmlOutput.AppendFormat("<score>{0}</score><docID>{1}</docID>", hits[i].Score, indexID ++);
                 foreach (Field f in d.GetFields())
                 {
                   if (f.StringValue() == null)
                     xmlOutput.AppendFormat("<{0} />", f.Name());
                   else
-                    xmlOutput.AppendFormat("<{0}><![CDATA[{1}]]></{0}>", f.Name(), f.StringValue());
+                    xmlOutput.AppendFormat("<{0}>{1}</{0}>", f.Name(), System.Security.SecurityElement.Escape(f.StringValue()));
                 }
                 xmlOutput.AppendFormat("</hit>");
               }

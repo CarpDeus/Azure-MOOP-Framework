@@ -42,8 +42,10 @@ namespace MOOP_WebRole
         string azureSharedKey = xNode.SelectSingleNode("Setting[@name='accountSharedKey']").Attributes["value"].Value;
         string blobStorage = azureEndpoint;
         string cPath = context.Request.Path;
+        if (!cPath.Contains(".") && !cPath.EndsWith("/"))
+            cPath += "/";
         if (cPath.EndsWith("/")) cPath += "default.htm";
-        if (!context.Request.Path.EndsWith("/") &&  File.Exists(context.Request.PhysicalPath))
+        if (!cPath.EndsWith("/") && File.Exists(context.Request.PhysicalPath))
         {
           string localEtag = aau.md5(File.GetLastWriteTimeUtc(context.Request.PhysicalPath).ToLongTimeString()) + aau.md5(context.Request.PhysicalPath);
           string headerEtag = string.Empty;
@@ -69,10 +71,10 @@ namespace MOOP_WebRole
         {
           string containerName = string.Empty;
           string blobName = string.Empty;
-          string[] aPath = context.Request.Path.Split("/".ToCharArray());
+          string[] aPath = cPath.Split("/".ToCharArray());
           if (aPath.Count() > 1)
             containerName = aPath[1];
-          if (!context.Request.Path.Substring(1).Contains("/"))
+          if (!cPath.Substring(1).Contains("/"))
           {
             containerName = "$root";
             blobName = cPath.Substring(1).TrimStart();

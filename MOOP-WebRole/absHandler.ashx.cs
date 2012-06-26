@@ -250,19 +250,19 @@ namespace MOOP_WebRole
       StringBuilder retVal = new StringBuilder();
       retVal.Append("<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n");
       retVal.AppendFormat("<azureResults Succeeded=\"{0}\" StatusCode=\"{1}\" >", ar.Succeeded, ar.StatusCode);
-      retVal.AppendFormat("<Url><![CDATA[{0}]]></Url>", ar.Url);
-      retVal.AppendFormat("<CanonicalResource><![CDATA[{0}]]></CanonicalResource>", ar.CanonicalResource);
+      retVal.AppendFormat("<Url>{0}</Url>", System.Web.HttpUtility.HtmlEncode(ar.Url));
+      retVal.AppendFormat("<CanonicalResource>{0}</CanonicalResource>", System.Web.HttpUtility.HtmlEncode(ar.CanonicalResource));
       retVal.AppendFormat("<Headers>");
       if (ar.Headers != null)
         if (ar.Headers.Keys.Count > 0)
         {
           foreach (string key in ar.Headers.Keys)
           {
-            retVal.AppendFormat("<Header><Key>{0}</Key><Value><![CDATA[{1}]]></Value></Header>", key, ar.Headers[key]);
+            retVal.AppendFormat("<Header><Key>{0}</Key><Value>{1}</Value></Header>", key, System.Web.HttpUtility.HtmlEncode(ar.Headers[key]));
           }
         }
       retVal.AppendFormat("</Headers>");
-      retVal.AppendFormat("<body><![CDATA[{0}]]></body>", ar.Body);
+      retVal.AppendFormat("<body>{0}</body>", System.Web.HttpUtility.HtmlEncode(ar.Body));
       retVal.Append("</azureResults>");
       return retVal.ToString();
     }

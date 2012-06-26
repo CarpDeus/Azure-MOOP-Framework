@@ -74,7 +74,7 @@ namespace MOOP_Framework_Utilities
       StringBuilder sb = new StringBuilder("<?xml version=\"1.0\"?><data>");
       foreach (string key in nvc.AllKeys)
       {
-        sb.AppendFormat("<nvp><name><![CDATA[{0}]]></name><value><![CDATA[{1}]]></value></nvp>", key, nvc[key]);
+        sb.AppendFormat("<nvp><name>{0}</name><value>{1}</value></nvp>", System.Security.SecurityElement.Escape(key), System.Security.SecurityElement.Escape(nvc[key]));
       }
       sb.Append("</data>");
       return sb.ToString();

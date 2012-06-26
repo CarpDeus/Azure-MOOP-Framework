@@ -49,7 +49,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Finsel.AzureCommands">
-      <HintPath>..\..\azurecommands\Finsel.AzureCommands\bin\Debug\Finsel.AzureCommands.dll</HintPath>
+      <HintPath>..\..\CarpDeusProjects\azurecommands\Finsel.AzureCommands\bin\Debug\Finsel.AzureCommands.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
