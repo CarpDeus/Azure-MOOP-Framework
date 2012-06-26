@@ -54,27 +54,28 @@
       <HintPath>..\..\Amundsen.Utilities\bin\Debug\Amundsen.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="AzureDirectory">
-      <HintPath>..\..\AzureDirectory\AzureDirectory\bin\Debug\AzureDirectory.dll</HintPath>
+      <HintPath>..\..\Azure Library for Lucene.Net (Full Text Indexing for Azure)\C#\AzureDirectory\bin\Debug\AzureDirectory.dll</HintPath>
     </Reference>
     <Reference Include="Finsel.AzureCommands">
-      <HintPath>..\..\azurecommands\Finsel.AzureCommands\bin\Debug\Finsel.AzureCommands.dll</HintPath>
+      <HintPath>..\..\CarpDeusProjects\azurecommands\Finsel.AzureCommands\bin\Debug\Finsel.AzureCommands.dll</HintPath>
     </Reference>
     <Reference Include="Lucene.Net">
-      <HintPath>..\..\Lucene.Net_2_9_2\src\Lucene.Net\bin\Debug\Lucene.Net.dll</HintPath>
+      <HintPath>..\..\Apache-Lucene.Net-2.9.4g-incubating-RC1.bin\bin\Lucene.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net.Snowball">
+      <HintPath>..\..\Apache-Lucene.Net-2.9.4g-incubating-RC1.bin\bin\Contrib\Lucene.Net.Snowball.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
-    <Reference Include="Newtonsoft.Json.Net20">
-      <HintPath>..\..\..\..\Json35r8\Bin\DotNet20\Newtonsoft.Json.Net20.dll</HintPath>
-    </Reference>
-    <Reference Include="Snowball.Net">
-      <HintPath>..\..\Lucene.Net_2_9_2\contrib\Snowball.Net\Snowball.Net\bin\Debug\Snowball.Net.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Json45r7\Bin\Net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>

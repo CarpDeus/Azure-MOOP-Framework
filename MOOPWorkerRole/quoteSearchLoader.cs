@@ -125,11 +125,11 @@ namespace MOOPWorkerRole
           case "analyzed": indexType = Field.Index.ANALYZED; break;
           case "analyzed_no_norms": indexType = Field.Index.ANALYZED_NO_NORMS; break;
           case "no": indexType = Field.Index.NO; break;
-          case "no_norms": indexType = Field.Index.NO_NORMS; break;
+          case "no_norms": indexType = Field.Index.NOT_ANALYZED_NO_NORMS; break;
           case "not_analyzed": indexType = Field.Index.NOT_ANALYZED; break;
           case "not_analyzed_no_norms": indexType = Field.Index.NOT_ANALYZED_NO_NORMS; break;
-          case "tokenized": indexType = Field.Index.TOKENIZED; break;
-          case "un_tokenized": indexType = Field.Index.UN_TOKENIZED; break;
+          case "tokenized": indexType = Field.Index.ANALYZED; break;
+          case "un_tokenized": indexType = Field.Index.NOT_ANALYZED; break;
           default: indexType = Field.Index.NO; break;
         }
         luceneName = LuceneName;
@@ -173,7 +173,7 @@ namespace MOOPWorkerRole
         return;
       }
 
-      IndexWriter idxW = new IndexWriter(azureDirectory, new SnowballAnalyzer("English"), !findexExists);// new IndexWriter.MaxFieldLength(1024));
+      IndexWriter idxW = new IndexWriter(azureDirectory, new SnowballAnalyzer("English"), !findexExists, new IndexWriter.MaxFieldLength(1024));
       idxW.SetRAMBufferSizeMB(10.0);
       idxW.SetUseCompoundFile(false);
       idxW.SetMaxMergeDocs(10000);
@@ -251,11 +251,11 @@ namespace MOOPWorkerRole
               case "analyzed": indexType[i] = Field.Index.ANALYZED; break;
               case "analyzed_no_norms": indexType[i] = Field.Index.ANALYZED_NO_NORMS; break;
               case "no": indexType[i] = Field.Index.NO; break;
-              case "no_norms": indexType[i] = Field.Index.NO_NORMS; break;
+              case "no_norms": indexType[i] = Field.Index.NOT_ANALYZED_NO_NORMS; break;
               case "not_analyzed": indexType[i] = Field.Index.NOT_ANALYZED; break;
               case "not_analyzed_no_norms": indexType[i] = Field.Index.NOT_ANALYZED_NO_NORMS; break;
-              case "tokenized": indexType[i] = Field.Index.TOKENIZED; break;
-              case "un_tokenized": indexType[i] = Field.Index.UN_TOKENIZED; break;
+              case "tokenized": indexType[i] = Field.Index.ANALYZED; break;
+              case "un_tokenized": indexType[i] = Field.Index.NOT_ANALYZED; break;
               default: indexType[i] = Field.Index.NO; break;
             }
             dataName[i] = node.Attributes["dataName"].Value;
@@ -345,7 +345,7 @@ namespace MOOPWorkerRole
             return;
           }
 
-          IndexWriter idxW = new IndexWriter(azureDirectory, new SnowballAnalyzer("English"), !findexExists);// new IndexWriter.MaxFieldLength(1024));
+          IndexWriter idxW = new IndexWriter(azureDirectory, new SnowballAnalyzer("English"), !findexExists, new IndexWriter.MaxFieldLength(1024));
           idxW.SetRAMBufferSizeMB(10.0);
           idxW.SetUseCompoundFile(false);
           idxW.SetMaxMergeDocs(10000);
