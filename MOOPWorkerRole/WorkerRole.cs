@@ -12,13 +12,14 @@ using Microsoft.WindowsAzure.StorageClient;
 
 using Finsel.AzureCommands;
 using System.Collections.Specialized;
-
+using Enyim.Caching;
 using System.Xml;
 
 namespace MOOPWorkerRole
 {
   public class WorkerRole : RoleEntryPoint
   {
+     
 
     string blobConfig = string.Empty;
     public string blobWebConfig
@@ -47,10 +48,13 @@ namespace MOOPWorkerRole
     string messageID = string.Empty;
     string popReceipt = string.Empty;
     string qParameters = string.Empty;
+
+    Process proc;
     public override void Run()
     {
       // This is a sample worker implementation. Replace with your logic.
-      Trace.WriteLine("AzureArchitectWorker entry point called", "Information");
+     // Trace.WriteLine("AzureArchitectWorker entry point called", "Information");
+        //proc.WaitForExit();
 
       while (true)
       {
@@ -119,6 +123,9 @@ namespace MOOPWorkerRole
 
     public override bool OnStart()
     {
+        // Start Memcached
+        proc = WindowsAzureMemcachedHelpers.StartMemcached("Memcached", 12);
+
       // Set the maximum number of concurrent connections 
       ServicePointManager.DefaultConnectionLimit = 12;
 
@@ -140,8 +147,11 @@ namespace MOOPWorkerRole
 
       try
       {
-        sleepDuration = Convert.ToInt32(RoleEnvironment.GetConfigurationSettingValue("SleepDuration"));
-
+          try
+          {
+              sleepDuration = Convert.ToInt32(RoleEnvironment.GetConfigurationSettingValue("SleepDuration"));
+          }
+          catch { sleepDuration = 30000; }
         XmlDocument xdoc = new XmlDocument();
         xdoc.LoadXml(new Utility().getConfigXML());
         XmlNode xNode = xdoc.SelectSingleNode(string.Format("//blobData[@name='default']"));

@@ -56,6 +56,9 @@
     <Reference Include="AzureDirectory">
       <HintPath>..\..\Azure Library for Lucene.Net (Full Text Indexing for Azure)\C#\AzureDirectory\bin\Debug\AzureDirectory.dll</HintPath>
     </Reference>
+    <Reference Include="Enyim.Caching">
+      <HintPath>..\packages\EnyimMemcached.2.11\lib\net35\Enyim.Caching.dll</HintPath>
+    </Reference>
     <Reference Include="Finsel.AzureCommands">
       <HintPath>..\..\CarpDeusProjects\azurecommands\Finsel.AzureCommands\bin\Debug\Finsel.AzureCommands.dll</HintPath>
     </Reference>
@@ -92,11 +95,17 @@
     <Compile Include="fbUserProcessor.cs" />
     <Compile Include="quoteSearchLoader.cs" />
     <Compile Include="Utility.cs" />
+    <Compile Include="WazMemcached\ClientHelpers.cs" />
+    <Compile Include="WazMemcached\ServerHelpers.cs" />
     <Compile Include="WorkerRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="memcached\licenses\COPYING.LIB" />
+    <None Include="memcached\licenses\COPYING.memcached" />
+    <None Include="memcached\licenses\COPYING.pthreads-win32" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\fbUserProcessor\fbUserProcessor.csproj">
@@ -129,6 +138,20 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="memcached\amd64\memcached.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="memcached\amd64\pthreadGC2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="memcached\x86\memcached.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="memcached\x86\pthreadGC2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

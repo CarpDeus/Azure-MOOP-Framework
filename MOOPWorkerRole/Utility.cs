@@ -12,13 +12,15 @@ using System.Data.SqlClient;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Finsel.AzureCommands;
 using System.Xml;
+using Enyim.Caching;
+
 
 namespace MOOPWorkerRole
 {
   public class Utility
   {
 
-
+      static MemcachedClient client = WindowsAzureMemcachedHelpers.CreateDefaultClient("MOOPWorkerRole", "memcached");
 
     public Utility()
     { }
@@ -28,39 +30,43 @@ namespace MOOPWorkerRole
     public string getConfigXML()
     {
 
-      string retVal = string.Empty;
-      string diagnosticsConnection = RoleEnvironment.GetConfigurationSettingValue("DiagnosticsConnectionString");
-      string azureAccount = string.Empty;
-      string azureEndpoint = string.Empty;
-      string azureSharedKey = string.Empty;
-      string defaultEndpointsProtocol = string.Empty;
-      string configBlobContainer = RoleEnvironment.GetConfigurationSettingValue("configBlobContainer");
-      foreach (string item in diagnosticsConnection.Split(";".ToCharArray()))
-      {
-        string[] parsedItem = item.Split("=".ToCharArray());
-        switch (parsedItem[0])
+        string retVal = client.Get("config") as string;
+        if (retVal == null)
         {
-          case "AccountKey": azureSharedKey = parsedItem[1];
-            for (int i = 2; i < parsedItem.Length; i++)
-              azureSharedKey += "=";
-            break;
-          case "AccountName": azureAccount = parsedItem[1]; break;
-          case "DefaultEndpointsProtocol": defaultEndpointsProtocol = parsedItem[1]; break;
-          case "Endpoint": azureEndpoint = parsedItem[1]; break;
-          default: break;
+
+            string diagnosticsConnection = RoleEnvironment.GetConfigurationSettingValue("DiagnosticsConnectionString");
+            string azureAccount = string.Empty;
+            string azureEndpoint = string.Empty;
+            string azureSharedKey = string.Empty;
+            string defaultEndpointsProtocol = string.Empty;
+            string configBlobContainer = RoleEnvironment.GetConfigurationSettingValue("configurationContainer");
+            foreach (string item in diagnosticsConnection.Split(";".ToCharArray()))
+            {
+                string[] parsedItem = item.Split("=".ToCharArray());
+                switch (parsedItem[0])
+                {
+                    case "AccountKey": azureSharedKey = parsedItem[1];
+                        for (int i = 2; i < parsedItem.Length; i++)
+                            azureSharedKey += "=";
+                        break;
+                    case "AccountName": azureAccount = parsedItem[1]; break;
+                    case "DefaultEndpointsProtocol": defaultEndpointsProtocol = parsedItem[1]; break;
+                    case "Endpoint": azureEndpoint = parsedItem[1]; break;
+                    default: break;
+                }
+            }
+
+            if (azureEndpoint == string.Empty)
+                azureEndpoint = string.Format("{0}://{1}.blob.core.windows.net/", defaultEndpointsProtocol, azureAccount);
+
+            byte[] xmlFragment = null;
+            Finsel.AzureCommands.AzureBlobStorage abs = new Finsel.AzureCommands.AzureBlobStorage(azureAccount, azureEndpoint, azureSharedKey, "SharedKey");
+            azureResults ar = new azureResults();
+            xmlFragment = abs.GetBlob(configBlobContainer, "configuration.xml", "", ref ar);
+            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+            retVal = enc.GetString(xmlFragment);
+            client.Store(Enyim.Caching.Memcached.StoreMode.Set, "config", retVal, new TimeSpan(0,10,0));
         }
-      }
-
-      if (azureEndpoint == string.Empty)
-        azureEndpoint = string.Format("{0}://{1}.blob.core.windows.net/", defaultEndpointsProtocol, azureAccount);
-
-      byte[] xmlFragment = null;
-      Finsel.AzureCommands.AzureBlobStorage abs = new Finsel.AzureCommands.AzureBlobStorage(azureAccount, azureEndpoint, azureSharedKey, "SharedKey");
-      azureResults ar = new azureResults();
-      xmlFragment = abs.GetBlob(configBlobContainer, "configuration.xml", "", ref ar);
-      System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-      retVal = enc.GetString(xmlFragment);
-
       return retVal;
     }
 
