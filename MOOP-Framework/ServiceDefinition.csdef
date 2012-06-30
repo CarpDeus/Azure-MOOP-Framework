@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceDefinition name="MOOP_Framework" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition">
-  <WebRole name="MOOP-WebRole">
+  <WebRole name="MOOP-WebRole" vmsize="ExtraSmall">
     <Sites>
       <Site name="Web">
         <Bindings>
           <Binding name="HttpIn" endpointName="HttpIn" />
           <Binding name="HttpsIn" endpointName="HttpsIn" />
+          <Binding name="Endpoint1" endpointName="Memcached" />
         </Bindings>
       </Site>
     </Sites>
@@ -16,7 +17,7 @@
       <Setting name="HandlerFbTransforms" />
       <Setting name="HandlerFbScripts" />
       <Setting name="allowInsecureRemoteEndpoints" />
-      <Setting name="configBlobContainer" />
+      <Setting name="configurationContainer" />
     </ConfigurationSettings>
     <LocalResources>
       <LocalStorage name="AzureLucene" cleanOnRoleRecycle="false" sizeInMB="512" />
@@ -27,15 +28,16 @@
     <Endpoints>
       <InputEndpoint name="HttpIn" protocol="http" port="80" />
       <InputEndpoint name="HttpsIn" protocol="https" port="443" certificate="AzureArchitect" />
+      <InputEndpoint name="Memcached" protocol="http" port="8080" />
     </Endpoints>
     <Imports>
     </Imports>
   </WebRole>
-  <WorkerRole name="MOOPWorkerRole">
+  <WorkerRole name="MOOPWorkerRole" vmsize="ExtraSmall">
     <ConfigurationSettings>
       <Setting name="DiagnosticsConnectionString" />
       <Setting name="BlobStorageEndpoint" />
-      <Setting name="configBlobContainer" />
+      <Setting name="configurationContainer" />
       <Setting name="SleepDuration" />
       <Setting name="queueName" />
     </ConfigurationSettings>
@@ -44,5 +46,8 @@
     </Certificates>
     <Imports>
     </Imports>
+    <Endpoints>
+      <InputEndpoint name="memcached" protocol="tcp" port="11211" localPort="11211" />
+    </Endpoints>
   </WorkerRole>
 </ServiceDefinition>

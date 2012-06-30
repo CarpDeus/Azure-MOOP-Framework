@@ -4,16 +4,14 @@
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="DiagnosticsConnectionString" value="DefaultEndpointsProtocol=https;AccountName=;AccountKey=" />
-      <Setting name="webRootContainer" value="" />
+      <Setting name="webRootContainer" value="cloudquotes" />
       <Setting name="HandlerFbApps" value="fb-apps" />
       <Setting name="HandlerFbTransforms" value="transforms" />
       <Setting name="HandlerFbScripts" value="scripts" />
       <Setting name="allowInsecureRemoteEndpoints" value="" />
-      <Setting name="configBlobContainer" value="azureconfig" />
-
+      <Setting name="configurationContainer" value="" />
     </ConfigurationSettings>
     <Certificates>
-      <Certificate name="AzureArchitect" thumbprint="069A0F7C9E21F7A76E3423AAD192577C86CA9AD5" thumbprintAlgorithm="sha1" />
     </Certificates>
   </Role>
   <Role name="MOOPWorkerRole">
@@ -23,11 +21,9 @@
       <Setting name="BlobStorageEndpoint" value="" />
       <Setting name="SleepDuration" value="30000" />
       <Setting name="queueName" value="lucene-processing" />
-      <Setting name="configBlobContainer" value="azureconfig" />
-
+      <Setting name="configurationContainer" value="" />
     </ConfigurationSettings>
     <Certificates>
-      <Certificate name="AzureArchitect" thumbprint="069A0F7C9E21F7A76E3423AAD192577C86CA9AD5" thumbprintAlgorithm="sha1" />
     </Certificates>
   </Role>
 </ServiceConfiguration>
