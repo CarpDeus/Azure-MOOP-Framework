@@ -22,17 +22,15 @@ namespace MOOP_WebRole
 {
   public class Utility
   {
-
     
     public Utility()
     { }
-
 
     public string getConfigXML()
     {
       
       string retVal = string.Empty;
-      retVal =(string) HttpRuntime.Cache.Get("blobWebConfig");
+      retVal =(string) HttpRuntime.Cache.Get("configuration");
       if(retVal == null || retVal == string.Empty )
       {
         string diagnosticsConnection = RoleEnvironment.GetConfigurationSettingValue("DiagnosticsConnectionString");
@@ -40,8 +38,8 @@ namespace MOOP_WebRole
         string azureEndpoint = string.Empty;
         string azureSharedKey = string.Empty;
         string defaultEndpointsProtocol = string.Empty;
-        string configBlobContainer = RoleEnvironment.GetConfigurationSettingValue("configBlobContainer");
-        int extraEquals = 0;
+        string configBlobContainer = RoleEnvironment.GetConfigurationSettingValue("configurationContainer");
+
         foreach (string item in diagnosticsConnection.Split(";".ToCharArray()))
         {
           string[] parsedItem = item.Split("=".ToCharArray());
@@ -68,7 +66,7 @@ namespace MOOP_WebRole
         System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
         retVal = enc.GetString(xmlFragment);
 
-        HttpRuntime.Cache.Insert("blobWebConfig", retVal,null,  System.Web.Caching.Cache.NoAbsoluteExpiration, new TimeSpan(0, 10, 0));
+        HttpRuntime.Cache.Insert("configuration", retVal,null,  System.Web.Caching.Cache.NoAbsoluteExpiration, new TimeSpan(0, 10, 0));
       }
       return retVal;
     }

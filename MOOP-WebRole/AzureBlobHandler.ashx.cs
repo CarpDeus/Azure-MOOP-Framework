@@ -34,8 +34,15 @@ namespace MOOP_WebRole
         string retVal = string.Empty;
         XmlDocument xdoc = new XmlDocument();
         xdoc.LoadXml(new Utility().getConfigXML());
+        string hostName = context.Request.Headers["Host"];
+        if (hostName.Contains(":"))
+            hostName = hostName.Substring(0, hostName.IndexOf(":"));
+        XmlNode xNode = xdoc.SelectSingleNode(string.Format("//blobData[@name='{0}']", hostName ));
+        if (xNode == null)
+            xNode = xdoc.SelectSingleNode(string.Format("//blobData[@name='{0}']", hostName.Substring(hostName.IndexOf(".") + 1)));
 
-        XmlNode xNode = xdoc.SelectSingleNode("//blobData[@name='default']");
+        if (xNode == null)
+            xNode = xdoc.SelectSingleNode("//blobData[@name='default']");
 
         string azureAccount =  xNode.SelectSingleNode("Setting[@name='account']").Attributes["value"].Value;
         string azureEndpoint = xNode.SelectSingleNode("Setting[@name='endpoint']").Attributes["value"].Value;
@@ -47,7 +54,7 @@ namespace MOOP_WebRole
         if (cPath.EndsWith("/")) cPath += "default.htm";
         if (!cPath.EndsWith("/") && File.Exists(context.Request.PhysicalPath))
         {
-          string localEtag = aau.md5(File.GetLastWriteTimeUtc(context.Request.PhysicalPath).ToLongTimeString()) + aau.md5(context.Request.PhysicalPath);
+          string localEtag = aau.md5(hostName + File.GetLastWriteTimeUtc(context.Request.PhysicalPath).ToLongTimeString()) + aau.md5(context.Request.PhysicalPath);
           string headerEtag = string.Empty;
           if (context.Request.Headers["If-None-Match"] != null)
             headerEtag = context.Request.Headers["If-None-Match"];
