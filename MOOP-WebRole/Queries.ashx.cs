@@ -14,6 +14,8 @@ using System.Data.SqlClient;
 
 using System.IO.Compression;
 using MOOP_Framework_Utilities;
+using Google.ProtocolBuffers.Serialization.Http;
+using Newtonsoft.Json;
 
 namespace MOOP_WebRole
 {
@@ -180,23 +182,49 @@ namespace MOOP_WebRole
               string xmlTransform = string.Empty;
               try { xmlTransform = xdoc.SelectSingleNode("/MOOPData/storedProcedure/transform").InnerText; }
               catch { }
-              if (xmlTransform != string.Empty && xmlTransform != null && ! context.Request.Params.AllKeys.Contains("ignore_transform"))
+              if (xmlTransform != string.Empty && xmlTransform != null && !context.Request.Params.AllKeys.Contains("ignore_transform"))
               {
-                string transformContentType = "text/html";
-                try { transformContentType = xdoc.SelectSingleNode("/MOOPData/storedProcedure/transform").Attributes["contentType"].Value ; }
-                catch { }
-                xmlFragment = abs.GetBlob(fragmentLocation, xmlTransform, "", ref ar, "");
-                if (ar.Succeeded)
-                {
-                  MOOP_Framework_Utilities.XsltUtil xslu = new MOOP_Framework_Utilities.XsltUtil();
-                  retVal = MOOP_Framework_Utilities.XsltUtil.TransformXml(retVal, System.Text.ASCIIEncoding.ASCII.GetString(xmlFragment));
+                  string transformContentType = "text/html";
+                  try { transformContentType = xdoc.SelectSingleNode("/MOOPData/storedProcedure/transform").Attributes["contentType"].Value; }
+                  catch { }
+                  xmlFragment = abs.GetBlob(fragmentLocation, xmlTransform, "", ref ar, "");
+                  if (ar.Succeeded)
+                  {
+                      MOOP_Framework_Utilities.XsltUtil xslu = new MOOP_Framework_Utilities.XsltUtil();
+                      retVal = MOOP_Framework_Utilities.XsltUtil.TransformXml(retVal, System.Text.ASCIIEncoding.ASCII.GetString(xmlFragment));
 
-                  context.Response.ContentType = transformContentType;
-                }
-              
+                      context.Response.ContentType = transformContentType;
+                  }
+                 
+                  
+
               }
               else
-                context.Response.ContentType = "text/xml";
+              {
+                  // Check for JSon Request
+                  
+                  MessageFormatOptions defaultOptions = new MessageFormatOptions();
+                  string preferredContentType = string.Empty;
+                  if (context.Request.HttpMethod == "GET" || context.Request.HttpMethod == "DELETE")
+                  {
+                      preferredContentType = (context.Request.AcceptTypes ?? new string[0])
+                                .Select(m => m.Split(';')[0])
+                                .FirstOrDefault(m => defaultOptions.MimeInputTypes.ContainsKey(m))
+                                ?? defaultOptions.DefaultContentType;
+                      if (preferredContentType.Trim() == string.Empty)
+                          preferredContentType = context.Request.Headers["Content-Type"];
+                  }
+                  else preferredContentType = context.Request.Headers["Content-Type"];
+                  if (preferredContentType == "application/json")
+                  {
+                      context.Response.ContentType = preferredContentType;
+                      XmlDocument doc = new XmlDocument();
+                      doc.LoadXml(retVal);
+                      retVal = JsonConvert.SerializeXmlNode(doc);
+                  }
+                  else
+                      context.Response.ContentType = "text/xml";
+              }
             }
           }
         }

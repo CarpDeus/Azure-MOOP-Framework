@@ -124,7 +124,7 @@ namespace MOOPWorkerRole
     public override bool OnStart()
     {
         // Start Memcached
-        proc = WindowsAzureMemcachedHelpers.StartMemcached("Memcached", 12);
+        proc = WindowsAzureMemcachedHelpers.StartMemcached("Memcached", 256);
 
       // Set the maximum number of concurrent connections 
       ServicePointManager.DefaultConnectionLimit = 12;

@@ -25,7 +25,8 @@ using Lucene.Net.QueryParsers;
 using Lucene.Net.Analysis.Snowball;
 using Lucene.Net.Store.Azure;
 
-
+using Google.ProtocolBuffers.Serialization.Http;
+using Newtonsoft.Json;
 
 namespace MOOP_WebRole
 {
@@ -172,29 +173,53 @@ namespace MOOP_WebRole
               }
               xmlOutput.AppendFormat("</root>");
               retVal = xmlOutput.ToString();
+
             }
             catch (Exception ex)
             {
               retVal = "<root />";
             }
-            string luceneTransform = string.Empty;
-            luceneTransform = xdoc.SelectSingleNode("/MOOPData/luceneSearch/transform").InnerText;
-            if (luceneTransform != string.Empty && luceneTransform != null)
+            MessageFormatOptions defaultOptions = new MessageFormatOptions();
+            string preferredContentType = string.Empty;
+            if (context.Request.HttpMethod == "GET" || context.Request.HttpMethod == "DELETE")
             {
-              xmlFragment = abs.GetBlob(fragmentLocation, luceneTransform, "", ref ar, "");
-              if (ar.Succeeded)
-              {
-                MOOP_Framework_Utilities.XsltUtil xslu = new MOOP_Framework_Utilities.XsltUtil();
-                retVal = MOOP_Framework_Utilities.XsltUtil.TransformXml(retVal, System.Text.ASCIIEncoding.ASCII.GetString(xmlFragment));
-                string transformContentType = "text/html";
-                try { transformContentType = xdoc.SelectSingleNode("/MOOPData/luceneSearch/transform").Attributes["contentType"].Value; }
-                catch { }
-                  context.Response.ContentType = transformContentType;
-              }
+                preferredContentType = (context.Request.AcceptTypes ?? new string[0])
+                          .Select(m => m.Split(';')[0])
+                          .FirstOrDefault(m => defaultOptions.MimeInputTypes.ContainsKey(m))
+                          ?? defaultOptions.DefaultContentType;
+                if (preferredContentType.Trim() == string.Empty)
+                    preferredContentType = context.Request.Headers["Content-Type"];
+            }
+            else preferredContentType = context.Request.Headers["Content-Type"];
+            if (preferredContentType == "application/json")
+            {
+                context.Response.ContentType = preferredContentType;
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(retVal);
+                retVal = JsonConvert.SerializeXmlNode(doc);
             }
             else
             {
-              context.Response.ContentType = "text/xml";
+                string luceneTransform = string.Empty;
+                luceneTransform = xdoc.SelectSingleNode("/MOOPData/luceneSearch/transform").InnerText;
+                if (luceneTransform != string.Empty && luceneTransform != null)
+                {
+                    xmlFragment = abs.GetBlob(fragmentLocation, luceneTransform, "", ref ar, "");
+                    if (ar.Succeeded)
+                    {
+                        MOOP_Framework_Utilities.XsltUtil xslu = new MOOP_Framework_Utilities.XsltUtil();
+                        retVal = MOOP_Framework_Utilities.XsltUtil.TransformXml(retVal, System.Text.ASCIIEncoding.ASCII.GetString(xmlFragment));
+                        string transformContentType = "text/html";
+                        try { transformContentType = xdoc.SelectSingleNode("/MOOPData/luceneSearch/transform").Attributes["contentType"].Value; }
+                        catch { }
+                        context.Response.ContentType = transformContentType;
+                    }
+                }
+
+                else
+                {
+                    context.Response.ContentType = "text/xml";
+                }
             }
           }
         }

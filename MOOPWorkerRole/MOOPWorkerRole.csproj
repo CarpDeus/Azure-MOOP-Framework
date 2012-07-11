@@ -62,6 +62,12 @@
     <Reference Include="Finsel.AzureCommands">
       <HintPath>..\..\CarpDeusProjects\azurecommands\Finsel.AzureCommands\bin\Debug\Finsel.AzureCommands.dll</HintPath>
     </Reference>
+    <Reference Include="Google.ProtocolBuffers">
+      <HintPath>..\packages\Google.ProtocolBuffers.2.4.1.473\lib\net40\Google.ProtocolBuffers.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.ProtocolBuffers.Serialization">
+      <HintPath>..\packages\Google.ProtocolBuffers.2.4.1.473\lib\net40\Google.ProtocolBuffers.Serialization.dll</HintPath>
+    </Reference>
     <Reference Include="Lucene.Net">
       <HintPath>..\..\Apache-Lucene.Net-2.9.4g-incubating-RC1.bin\bin\Lucene.Net.dll</HintPath>
     </Reference>
@@ -71,8 +77,8 @@
     <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\Json45r7\Bin\Net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -106,6 +112,8 @@
     <None Include="memcached\licenses\COPYING.memcached" />
     <None Include="memcached\licenses\COPYING.pthreads-win32" />
     <None Include="packages.config" />
+    <None Include="protos\google\protobuf\csharp_options.proto" />
+    <None Include="protos\google\protobuf\descriptor.proto" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\fbUserProcessor\fbUserProcessor.csproj">
@@ -152,6 +160,11 @@
     <None Include="memcached\x86\pthreadGC2.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CHANGES.txt" />
+    <Content Include="licenses\license.txt" />
+    <Content Include="licenses\protoc-license.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

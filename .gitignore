@@ -5,3 +5,7 @@ obj
 /Backup
 /UpgradeLog.XML
 csx
+.user
+/protos
+/packages
+ServiceConfiguration.cscfg

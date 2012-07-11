@@ -6,7 +6,6 @@
         <Bindings>
           <Binding name="HttpIn" endpointName="HttpIn" />
           <Binding name="HttpsIn" endpointName="HttpsIn" />
-          <Binding name="Endpoint1" endpointName="Memcached" />
         </Bindings>
       </Site>
     </Sites>
@@ -28,7 +27,7 @@
     <Endpoints>
       <InputEndpoint name="HttpIn" protocol="http" port="80" />
       <InputEndpoint name="HttpsIn" protocol="https" port="443" certificate="AzureArchitect" />
-      <InputEndpoint name="Memcached" protocol="http" port="8080" />
+      <InputEndpoint name="memcached" protocol="tcp" port="11213" localPort="11213" />
     </Endpoints>
     <Imports>
     </Imports>
@@ -47,7 +46,7 @@
     <Imports>
     </Imports>
     <Endpoints>
-      <InputEndpoint name="memcached" protocol="tcp" port="11211" localPort="11211" />
+      <InputEndpoint name="memcached" protocol="tcp" port="11211" localPort="11212" />
     </Endpoints>
   </WorkerRole>
 </ServiceDefinition>

@@ -17,20 +17,20 @@ using System.Data.SqlClient;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Finsel.AzureCommands;
 using System.Xml;
+using Enyim.Caching;
 
 namespace MOOP_WebRole
 {
   public class Utility
   {
-    
+      static MemcachedClient client = WindowsAzureMemcachedHelpers.CreateDefaultClient("MOOP-WebRole", "memcached");
     public Utility()
     { }
 
     public string getConfigXML()
     {
-      
-      string retVal = string.Empty;
-      retVal =(string) HttpRuntime.Cache.Get("configuration");
+
+      string retVal = client.Get("config") as string;
       if(retVal == null || retVal == string.Empty )
       {
         string diagnosticsConnection = RoleEnvironment.GetConfigurationSettingValue("DiagnosticsConnectionString");
@@ -65,8 +65,8 @@ namespace MOOP_WebRole
         xmlFragment = abs.GetBlob(configBlobContainer, "configuration.xml", "", ref ar);
         System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
         retVal = enc.GetString(xmlFragment);
-
-        HttpRuntime.Cache.Insert("configuration", retVal,null,  System.Web.Caching.Cache.NoAbsoluteExpiration, new TimeSpan(0, 10, 0));
+        client.Store(Enyim.Caching.Memcached.StoreMode.Set, "config", retVal, new TimeSpan(0, 10, 0));
+       // HttpRuntime.Cache.Insert("configuration", retVal,null,  System.Web.Caching.Cache.NoAbsoluteExpiration, new TimeSpan(0, 10, 0));
       }
       return retVal;
     }

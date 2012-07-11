@@ -7,7 +7,7 @@ using System.Web;
 using System.Xml;
 using Finsel.AzureCommands;
 using System.Text;
-
+using Microsoft.WindowsAzure.StorageClient;
 using System.Collections;
 
 namespace MOOP_WebRole
@@ -169,6 +169,7 @@ namespace MOOP_WebRole
           ar = abs.SetContainerAccess(containerName, true);
           retVal = processAzureResults(ar);
           break;
+      
         case "snapshotblob":
           ar = abs.SnapshotBlob(containerName, blobName);
           retVal = processAzureResults(ar);
