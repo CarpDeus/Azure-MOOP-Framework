@@ -18,7 +18,10 @@ At the moment, there are four repeating sections:
 * blobData
 * fragmentData
 * queueData
-* tableData
+* tableData  
+Each individual element section contains a *name* attribute. This allows for adding other domain names for multi-tenanted 
+hosting. If you used, for example, *name="cloud.azure-architect.com"*, then you could have a different blob storage 
+then you are using for azurearchitect.cloudapp.net.
 
 `<root>`
 `	<blobData name="default">`  
