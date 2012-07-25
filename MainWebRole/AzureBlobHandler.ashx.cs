@@ -29,7 +29,7 @@ namespace MOOPFramework
 
     public void ProcessRequest(HttpContext context)
     {
-
+      Utility u = new Utility();
       string cacheKeyETag = string.Format("etag:{0}{1}", context.Request.Url.DnsSafeHost, context.Request.Url.LocalPath);
       context.Response.AppendToLog(string.Format("Processing {0}", context.Request.Url));
       FrameworkUtility aau = new FrameworkUtility();
@@ -48,7 +48,7 @@ namespace MOOPFramework
         {
           string retVal = string.Empty;
           XmlDocument xdoc = new XmlDocument();
-          xdoc.LoadXml(new Utility().getConfigXML());
+          xdoc.LoadXml(u.getConfigXML());
           string hostName = context.Request.Headers["Host"];
           if (hostName.Contains(":"))
             hostName = hostName.Substring(0, hostName.IndexOf(":"));
@@ -111,7 +111,7 @@ namespace MOOPFramework
               if (cPath.Length > containerName.Length + 2)
                 blobName = cPath.Substring(containerName.Length + 2).TrimStart();
             }
-            if (blobName != string.Empty)
+            if (blobName != string.Empty && containerName != u.configBlobContainer )
             {
               //if (blobName.Contains(',')) // we have parameters in the page name that need to be taken care of
               //{
