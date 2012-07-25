@@ -13,7 +13,35 @@ There are two items defined in the role.cscfg file. One is the *Microsoft.Window
 This is used to determine both where to store the diagnostic logs but also serves as the connection to where the
 config file used by the framework is stored.  
 There is another setting called *configurationContainer*. This is the container that contains a file named 
-configuration.xml. 
+configuration.xml. The configuration.xml file stores all of the configuration data for the Web and Worker roles.
+At the moment, there are four repeating sections:
+* blobData
+* fragmentData
+* queueData
+* tableData
+
+`<root>`
+`	<blobData name="default">`
+`		<Setting name="endpoint" value="http://{provide}.blob.core.windows.net/" />`
+`		<Setting name="account" value="{provide}" />`
+`		<Setting name="accountSharedKey" value="{provide}" />`
+`		<Setting name="rootContainer" value="$root" />`
+`	</blobData>`
+`	<fragmentData name="default">`
+`		<Setting name="HandlerFragments" value="fragments" />`
+`		<Setting name="luceneFragments" value="lucene-fragments" />`
+`	</fragmentData>`
+`	<queueData name="default">`
+`		<Setting name="endpoint" value="http://{provide}.queue.core.windows.net/" />`
+`		<Setting name="account" value="{provide}" />`
+`		<Setting name="accountSharedKey" value="{provide}" />`
+`	</queueData>`
+`	<tableData name="default">`
+`		<Setting name="endpoint" value="http://{provide}.table.core.windows.net/" />`
+`		<Setting name="account" value="{provide}" />`
+`		<Setting name="accountSharedKey" value="{provide}" />`
+`	</tableData>`
+`</root>`
 
 #Defining a Database Call#
 Database calls are handled by the Queries.ashx handler. The web-config defines this handler so it processes any 
