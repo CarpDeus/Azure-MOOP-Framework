@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="MOOP_Framework_v2" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2012-05.1.7">
+  <WorkerRole name="MainWorkerRole" vmsize="ExtraSmall">
+    <Imports>
+      <Import moduleName="Diagnostics" />
+    </Imports>
+    <ConfigurationSettings>
+      <Setting name="configurationContainer" />
+    </ConfigurationSettings>
+    <Endpoints>
+      <InputEndpoint name="memcacheWorker" protocol="tcp" port="11211" />
+    </Endpoints>
+  </WorkerRole>
+  <WebRole name="MainWebRole" vmsize="ExtraSmall">
+    <Sites>
+      <Site name="Web">
+        <Bindings>
+          <Binding name="HttpIn" endpointName="HttpIn" />
+          <Binding name="HttpsIn" endpointName="HttpsIn" />
+        </Bindings>
+      </Site>
+    </Sites>
+    <Endpoints>
+      <InputEndpoint name="HttpIn" protocol="http" port="80" />
+      <InputEndpoint name="HttpsIn" protocol="https" port="443" certificate="Azure-Architect.com" />
+      <InputEndpoint name="memcacheWeb" protocol="tcp" port="11213" />
+    </Endpoints>
+    <Imports>
+      <Import moduleName="Diagnostics" />
+    </Imports>
+    <Certificates>
+      <Certificate name="Azure-Architect.com" storeLocation="LocalMachine" storeName="My" />
+    </Certificates>
+    <ConfigurationSettings>
+      <Setting name="configurationContainer" />
+    </ConfigurationSettings>
+  </WebRole>
+</ServiceDefinition>

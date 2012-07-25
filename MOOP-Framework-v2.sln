@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "MOOP-Framework-v2", "MOOP-Framework-v2\MOOP-Framework-v2.ccproj", "{39799484-9F2E-41E8-AB1C-6CBB9681E81A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainWebRole", "MainWebRole\MainWebRole.csproj", "{96B89AA9-29C4-4686-B862-50CDBD7F3C18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainWorkerRole", "MainWorkerRole\MainWorkerRole.csproj", "{90CDB11F-84AF-4629-B4BD-6E3038C2B106}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MOOPFrameworkUtilities", "MOOPFrameworkUtilities\MOOPFrameworkUtilities.csproj", "{4D57961C-5294-4FDE-A2E9-6DFBE784B503}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{700687C7-9766-4DEC-8D45-41CAAB5B7B36}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39799484-9F2E-41E8-AB1C-6CBB9681E81A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39799484-9F2E-41E8-AB1C-6CBB9681E81A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39799484-9F2E-41E8-AB1C-6CBB9681E81A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39799484-9F2E-41E8-AB1C-6CBB9681E81A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96B89AA9-29C4-4686-B862-50CDBD7F3C18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96B89AA9-29C4-4686-B862-50CDBD7F3C18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96B89AA9-29C4-4686-B862-50CDBD7F3C18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96B89AA9-29C4-4686-B862-50CDBD7F3C18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90CDB11F-84AF-4629-B4BD-6E3038C2B106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90CDB11F-84AF-4629-B4BD-6E3038C2B106}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90CDB11F-84AF-4629-B4BD-6E3038C2B106}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90CDB11F-84AF-4629-B4BD-6E3038C2B106}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D57961C-5294-4FDE-A2E9-6DFBE784B503}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D57961C-5294-4FDE-A2E9-6DFBE784B503}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D57961C-5294-4FDE-A2E9-6DFBE784B503}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D57961C-5294-4FDE-A2E9-6DFBE784B503}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
